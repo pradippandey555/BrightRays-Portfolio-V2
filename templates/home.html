@@ -1,0 +1,290 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-slate-950">
+    <div class="mesh-bg top-0 left-0 bg-blue-600/10 blur-[100px]"></div>
+    <div class="mesh-bg bottom-0 right-0 bg-purple-600/10 blur-[100px]"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8">
+            <div
+                class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-900/30 rounded-full border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+                <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                <span>Open to Work: {{ personal_info.title }}</span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
+                Empowering Communities Through <span class="text-gradient">Secure Technology</span>
+            </h1>
+
+            <div class="h-6">
+                <p class="font-mono text-blue-400 text-sm md:text-base">
+                    &gt; <span id="typewriter"></span><span class="animate-pulse">_</span>
+                </p>
+            </div>
+
+            <p class="text-slate-400 text-lg max-w-xl leading-relaxed">
+                {{ personal_info.summary }}
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <a href="#projects-section"
+                    class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                    <i class="fas fa-code-branch"></i> View Projects
+                </a>
+                <a href="#about"
+                    class="glass-panel hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-user"></i> About Me
+                </a>
+            </div>
+        </div>
+
+        <!-- Terminal Card -->
+        <div class="relative hidden lg:block">
+            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-30">
+            </div>
+            <div class="relative glass-panel rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-slate-900/80 px-4 py-3 flex items-center justify-between border-b border-slate-700/50">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="text-xs text-slate-500 font-mono">user@community-server:~</div>
+                </div>
+                <div class="p-6 font-mono text-sm space-y-4 text-slate-300">
+                    <div>
+                        <span class="text-green-400">➜</span> <span class="text-blue-400">~</span> <span
+                            class="text-yellow-300">check_skills_matrix</span>
+                    </div>
+                    <div class="pl-4 border-l-2 border-slate-700 space-y-2">
+                        <p>[+] Project Management......<span class="text-green-400">READY</span></p>
+                        <p>[+] Digital Forensics.......<span class="text-green-400">READY</span></p>
+                        <p>[+] Desktop Support.........<span class="text-green-400">READY</span></p>
+                        <p>[+] Policy & ACLs...........<span class="text-green-400">READY</span></p>
+                        <p>[+] Hydra/Exploitation......<span class="text-green-400">READY</span></p>
+                    </div>
+                    <div>
+                        <span class="text-green-400">➜</span> <span class="text-blue-400">~</span> echo "Qualified for
+                        deployment."
+                    </div>
+                    <div class="text-white">Qualified for deployment.</div>
+                    <div class="animate-pulse">_</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-24 bg-slate-900/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-16 items-center">
+            <div class="lg:w-1/3">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-blue-600 rounded-3xl rotate-6 opacity-20 blur-lg"></div>
+                    <img src="{{ url_for('static', filename='images/Pradip pandey.jfif') }}" alt="Pradip Pandey"
+                        class="relative rounded-3xl shadow-2xl w-full object-cover border-2 border-slate-700/50"
+                        onError="this.src='https://via.placeholder.com/400x500/1e293b/38bdf8?text=Pradip+Pandey'" />
+                </div>
+            </div>
+            <div class="lg:w-2/3">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">About Me</h2>
+                <h3 class="text-xl text-blue-400 font-semibold mb-6">IT Support & Cybersecurity Professional</h3>
+                <div class="space-y-4 text-slate-400 text-lg leading-relaxed">
+                    <p>
+                        I am a versatile IT professional with a unique blend of <strong>cybersecurity expertise</strong>
+                        and
+                        hands‑on <strong>technical support</strong> experience. My background spans <strong>network
+                            engineering,
+                            system administration, hardware/software troubleshooting, and end‑user support</strong> —
+                        making me
+                        an adaptable asset to any IT team.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="py-24 relative">
+    <div class="mesh-bg top-1/2 right-0 bg-indigo-600/5 blur-[120px]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Technical Expertise</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+                A comprehensive skills matrix developed through academic rigor and practical application.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for skill in skills %}
+            <div class="glass-card p-6 rounded-2xl border-t-4 {{ skill.color }} h-full">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <i class="fas {{ skill.icon }} text-slate-400"></i>
+                    {{ skill.category }}
+                </h3>
+                <ul class="space-y-2">
+                    {% for item in skill['items'] %}
+                    <li class="flex items-start gap-2 text-slate-400 text-sm">
+                        <i class="fas fa-check text-blue-500 mt-1 text-xs"></i>
+                        <span>{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects-section" class="py-24 bg-slate-900/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Projects & Labs</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+                Hands-on experience demonstrating competency across OS, Cloud, Networking, and Cybersecurity.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for project in projects %}
+            <div class="glass-card p-6 rounded-2xl border-t-4 {{ project.color }} group flex flex-col">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-slate-800 rounded-xl">
+                        <i class="fas {{ project.icon }} text-xl text-white"></i>
+                    </div>
+                    <span
+                        class="text-[10px] uppercase font-bold text-slate-500 tracking-widest border border-slate-700 px-2 py-1 rounded">
+                        {{ project.role }}
+                    </span>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
+                    {{ project.title }}
+                </h3>
+                <p class="text-xs font-mono text-slate-500 mb-3 uppercase tracking-wider">{{ project.category }}</p>
+
+                <p class="text-slate-400 text-sm mb-6 leading-relaxed flex-grow">
+                    {{ project.description }}
+                </p>
+
+                <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-slate-700/50">
+                    {% for tech in project.tech %}
+                    <span
+                        class="text-[10px] font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        #{{ tech }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{{ url_for('projects') }}"
+                class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold transition-all border border-slate-600">
+                View All Projects with Demos <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications Section -->
+<section id="certifications" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Qualifications & Certificates</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Verified credentials spanning Networking, Security, and IT Operations.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for cert in certificates %}
+            <a href="{{ url_for('static', filename='images/' + cert.src) }}" target="_blank"
+                class="block cert-card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 relative group cursor-pointer">
+                <div class="relative aspect-[4/3] bg-slate-900 overflow-hidden">
+                    <img src="{{ url_for('static', filename='images/' + cert.src) }}" alt="{{ cert.title }}"
+                        class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                        onError="this.src='https://via.placeholder.com/600x400/0f172a/38bdf8?text=Image+Not+Found'" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
+                    </div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full p-6">
+                    <span
+                        class="text-xs font-bold text-blue-400 bg-blue-900/30 px-2 py-1 rounded mb-2 inline-block border border-blue-500/20">
+                        {{ cert.issuer }}
+                    </span>
+                    <h3
+                        class="text-lg font-bold text-white leading-tight mb-2 group-hover:text-blue-300 transition-colors">
+                        {{ cert.title }}
+                    </h3>
+                    <p
+                        class="text-sm text-slate-400 leading-snug opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        {{ cert.description }}
+                    </p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="py-24 bg-slate-900/30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-12 text-center">Academic Foundation</h2>
+
+        <div class="space-y-8">
+            {% for edu in education %}
+            <div
+                class="glass-panel p-8 rounded-2xl flex flex-col md:flex-row gap-6 hover:bg-slate-800/40 transition-colors">
+                <div class="md:w-1/4">
+                    <span class="block text-5xl font-bold text-slate-700 mb-2">0{{ 4 - loop.index0 }}</span>
+                    <span
+                        class="inline-block px-3 py-1 bg-blue-900/30 text-blue-400 rounded-full text-sm font-bold border border-blue-500/20">
+                        {{ edu.year }}
+                    </span>
+                </div>
+                <div class="md:w-3/4">
+                    <h3 class="text-2xl font-bold text-white mb-1">{{ edu.degree }}</h3>
+                    <h4 class="text-lg text-slate-300 mb-4">{{ edu.institution }}</h4>
+                    <p class="text-slate-400 mb-6">{{ edu.details }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tag in edu.tags %}
+                        <span class="text-xs font-mono text-slate-500 border border-slate-700 px-2 py-1 rounded">
+                            #{{ tag }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    // Hero Typewriter Effect
+    const textElement = document.getElementById('typewriter');
+    const textToType = "Digital Engagement | Cybersecurity | Network Engineering";
+    let typeIndex = 0;
+
+    function typeWriter() {
+        if (typeIndex < textToType.length) {
+            textElement.innerHTML += textToType.charAt(typeIndex);
+            typeIndex++;
+            setTimeout(typeWriter, 50);
+        }
+    }
+
+    // Start typing when page loads
+    window.onload = typeWriter;
+</script>
+{% endblock %}

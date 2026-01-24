@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Engagement & Cyber Specialist Portfolio</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1120;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #60a5fa;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Certificate Hover Effect */
+        .cert-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cert-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 10;
+        }
+
+        /* Animated Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 4s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Mesh Gradient Background */
+        .mesh-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- Data Definitions ---
+
+        const personalInfo = {
+            name: "Pradip Pandey", 
+            title: "Digital Engagement Officer & Cybersecurity Specialist",
+            tagline: "Bridging the gap between complex IT infrastructure and community digital literacy.",
+            summary: "I am a versatile IT professional with a unique blend of cybersecurity expertise and hands‑on technical support experience. My background spans network engineering, system administration, hardware/software troubleshooting, and end‑user support — making me an adaptable asset to any IT team.",
+            email: "pradippandey555@gmail.com",
+            github: "pradippandey555",
+            linkedin: "pradip-pandey-317997195"
+        };
+
+        const aboutHighlights = [
+            "Networking & Firewalls",
+            "IT Help Desk (L1 & L2)",
+            "Hardware Diagnostics",
+            "System Administration",
+            "Cloud Platforms (Azure/AWS)",
+            "Virtualization (VMware/Hyper‑V)",
+            "Cybersecurity & Threat Mitigation"
+        ];
+
+        // --- Skills Data from skills.html ---
+        const skillsData = [
+            {
+                category: "Operating Systems",
+                icon: "fa-desktop",
+                color: "border-green-500", // cat-os
+                items: [
+                    "Windows Server 2019/2022: AD, Group Policy, DNS, DHCP",
+                    "Windows 10/11 installation, administration & troubleshooting",
+                    "Linux (Ubuntu, CentOS): Server config, shell scripting",
+                    "macOS basic administration & cross‑platform support"
+                ]
+            },
+            {
+                category: "Networking & Security",
+                icon: "fa-network-wired",
+                color: "border-blue-500", // cat-net
+                items: [
+                    "Cisco routing & switching: VLANs, OSPF, EIGRP, ACLs",
+                    "Firewall configuration: Windows Firewall, Cisco ASA basics",
+                    "VPN setup: Site‑to‑site & remote access",
+                    "Access control in Microsoft environments",
+                    "Network monitoring (SIEM, NetFlow)",
+                    "Endpoint protection & security hardening"
+                ]
+            },
+            {
+                category: "Virtualization & Cloud",
+                icon: "fa-cloud",
+                color: "border-purple-500", // cat-cloud
+                items: [
+                    "VMware & VirtualBox lab creation",
+                    "Hyper‑V basics",
+                    "Azure & AWS fundamentals (VMs, storage, RBAC)",
+                    "VM deployment, snapshots, optimisation"
+                ]
+            },
+            {
+                category: "Programming & Development",
+                icon: "fa-code",
+                color: "border-orange-500", // cat-dev
+                items: [
+                    "Python automation, log parsing, CSV data processing",
+                    "JavaScript, HTML5, CSS3 for responsive design",
+                    "Flask web app development & deployment",
+                    "Secure coding aligned with OWASP Top 10"
+                ]
+            },
+            {
+                category: "IT Support & Troubleshooting",
+                icon: "fa-headset",
+                color: "border-indigo-500", // cat-support
+                items: [
+                    "Level 1 & 2 help desk support",
+                    "Incident logging & resolution tracking",
+                    "Hardware diagnostics, repairs, maintenance",
+                    "Peripheral & network device configuration",
+                    "Software installation & version management"
+                ]
+            },
+            {
+                category: "IT & Cybersecurity Management",
+                icon: "fa-shield-halved",
+                color: "border-red-500", // cat-sec
+                items: [
+                    "Risk assessment & security policy development",
+                    "Incident response planning & reporting",
+                    "System analysis & SDLC documentation",
+                    "IT asset lifecycle management & compliance"
+                ]
+            },
+            {
+                category: "Soft Skills",
+                icon: "fa-people-group",
+                color: "border-teal-500", // cat-soft
+                items: [
+                    "Clear communication & customer service",
+                    "Problem‑solving under time pressure",
+                    "Adaptability across technologies",
+                    "Collaborative teamwork & knowledge sharing"
+                ]
+            }
+        ];
+
+        // --- Education Data (Existing) ---
+        const education = [
+            {
+                degree: "Bachelor of Cybersecurity (Current)",
+                institution: "Charles Sturt University",
+                year: "2023 - Present (2nd Year Completed)",
+                details: "Advanced focus on Digital Forensics, Network Security, and System Analysis. Consistent high achiever in Programming Principles and Database Systems.",
+                tags: ["Digital Forensics", "Network Defense", "System Analysis"]
+            },
+            {
+                degree: "Diploma of Information Technology (Networking)",
+                institution: "TAFE NSW",
+                year: "2022",
+                details: "Specialized in advanced network configuration, server management (Windows/Linux), and cybersecurity management protocols.",
+                tags: ["Cisco Networking", "Server Admin", "Virtualization"]
+            },
+            {
+                degree: "Certificate IV in Information Technology",
+                institution: "TAFE NSW",
+                year: "2021",
+                details: "Foundation in IT support, web development, and database administration.",
+                tags: ["Web Dev", "IT Support", "SQL"]
+            },
+            {
+                degree: "Certificate III in Information, Digital Media & Technology",
+                institution: "TAFE NSW",
+                year: "2020",
+                details: "Entry-level desktop support and operating system fundamentals.",
+                tags: ["Desktop Support", "OS Config"]
+            }
+        ];
+
+        // --- Certificates Data ---
+        const certificates = [
+            { 
+                id: 1, 
+                title: "Network Analysis Using Wireshark 3", 
+                issuer: "Network Security", 
+                src: "Wireshark 3.jpg",
+                description: "Practical packet capture and traffic analysis skills."
+            },
+            { 
+                id: 2, 
+                title: "Wireless Penetration Using Kali Linux", 
+                issuer: "Penetration Testing", 
+                src: "Kali Wireless Pen Test.jpg",
+                description: "Hands‑on wireless network auditing and security testing."
+            },
+            { 
+                id: 3, 
+                title: "Cyber Security Fundamentals", 
+                issuer: "Cyber Security", 
+                src: "Cyber.jpg",
+                description: "Core concepts in security frameworks and risk mitigation."
+            },
+            { 
+                id: 4, 
+                title: "Metasploit Testing Recipes", 
+                issuer: "Vulnerability Assessment", 
+                src: "Metasploit Testing Recipes.jpg",
+                description: "Exploitation and vulnerability assessment techniques."
+            },
+            { 
+                id: 5, 
+                title: "Outlook Essentials", 
+                issuer: "Productivity", 
+                src: "Outlook.jpg",
+                description: "Efficient email, calendar, and task management skills."
+            },
+            { 
+                id: 6, 
+                title: "Network Scanning With NMAP", 
+                issuer: "Network Recon", 
+                src: "Network Scanning With NMAP.jpg",
+                description: "Proficiency in network reconnaissance and mapping."
+            },
+            { 
+                id: 7, 
+                title: "Certified Ethical Hacker (In Progress)", 
+                issuer: "EC-Council", 
+                src: "cert2.jpg",
+                description: "Advanced penetration testing and ethical hacking concepts."
+            }
+        ];
+
+        // --- Updated Projects Data from projects.html ---
+        const projects = [
+            {
+                title: "Linux Server Administration",
+                role: "SysAdmin",
+                category: "Operating Systems",
+                description: "Deployed and managed Ubuntu and CentOS servers for user account management, file sharing, and service hosting. Configured permissions, automated backups, and implemented shell scripting for system monitoring.",
+                tech: ["Ubuntu", "CentOS", "Shell Scripting", "User Mgmt"],
+                icon: "fa-server",
+                color: "border-green-500/50"
+            },
+            {
+                title: "Virtualization & Infrastructure Labs",
+                role: "Infrastructure Engineer",
+                category: "Cloud & Virtualization",
+                description: "Built virtual lab environments using VirtualBox and VMware to simulate multi‑OS networks for testing and training. Configured virtual switches, NAT, and cloned VM templates for rapid deployment.",
+                tech: ["VMware", "VirtualBox", "Networking", "Virtualization"],
+                icon: "fa-cloud",
+                color: "border-purple-500/50"
+            },
+            {
+                title: "Windows Server & AD Management",
+                role: "Network Admin",
+                category: "Networking",
+                description: "Installed and configured Windows Server with AD, Group Policy, DNS, DHCP, and access controls. Integrated Defender AV and configured Windows Firewall for network protection.",
+                tech: ["Active Directory", "Group Policy", "DNS/DHCP", "Windows Server"],
+                icon: "fa-network-wired",
+                color: "border-blue-500/50"
+            },
+            {
+                title: "IT Project Management Simulation",
+                role: "Project Manager",
+                category: "Cybersecurity",
+                description: "Led a simulated IT upgrade project using Waterfall & Agile. Managed timelines, stakeholder communications, and documented risk assessments for a server migration plan.",
+                tech: ["Agile", "Waterfall", "Risk Assessment", "Migration"],
+                icon: "fa-tasks",
+                color: "border-red-500/50"
+            },
+            {
+                title: "Python Automation & Scripting",
+                role: "Developer",
+                category: "Development",
+                description: "Developed Python scripts to automate log analysis, parse CSV network reports, and send alerts for anomalies. Built CLI utilities for system checks and file management automation.",
+                tech: ["Python", "Automation", "Log Analysis", "Scripting"],
+                icon: "fa-code",
+                color: "border-orange-500/50"
+            },
+            {
+                title: "Full Stack Web Development",
+                role: "Web Developer",
+                category: "Development",
+                description: "Created responsive websites using HTML, CSS, JS, and Flask. Integrated authentication, CRUD operations, and basic security against SQL injection and XSS.",
+                tech: ["HTML/CSS/JS", "Flask", "Web Security", "CRUD"],
+                icon: "fa-laptop-code",
+                color: "border-orange-500/50"
+            },
+            {
+                title: "System Analysis & Design",
+                role: "Analyst",
+                category: "Cybersecurity",
+                description: "Produced SDLC documentation, including requirements gathering, UML diagrams, DB design, and functional testing procedures.",
+                tech: ["SDLC", "UML", "DB Design", "Documentation"],
+                icon: "fa-file-contract",
+                color: "border-red-500/50"
+            },
+            {
+                title: "Advanced Routing & Switching",
+                role: "Network Engineer",
+                category: "Networking",
+                description: "Configured Cisco routers/switches for VLANs, OSPF, EIGRP, and implemented ACLs and port security to restrict unauthorized access.",
+                tech: ["Cisco", "VLANs", "OSPF/EIGRP", "Port Security"],
+                icon: "fa-network-wired",
+                color: "border-blue-500/50"
+            },
+            {
+                title: "MS Access Control Management",
+                role: "Security Admin",
+                category: "Networking",
+                description: "Applied NTFS permissions, user rights assignments, and multi-level access policies in Windows environments to uphold least privilege.",
+                tech: ["NTFS", "Access Control", "Windows Security", "Least Privilege"],
+                icon: "fa-key",
+                color: "border-blue-500/50"
+            },
+            {
+                title: "Cybersecurity Management Simulation",
+                role: "Security Manager",
+                category: "Cybersecurity",
+                description: "Developed security policies and incident response plans for a simulated organisation. Conducted risk assessments and ISO 27001 compliance checks.",
+                tech: ["Policy Dev", "Incident Response", "ISO 27001", "Compliance"],
+                icon: "fa-shield-virus",
+                color: "border-red-500/50"
+            },
+            {
+                title: "IT Help Desk Support Lab",
+                role: "Support Specialist",
+                category: "IT Support",
+                description: "Provided L1 & L2 support in a simulated service desk, resolving hardware/software issues, imaging devices, and handling installations.",
+                tech: ["Help Desk", "Troubleshooting", "Imaging", "L1/L2 Support"],
+                icon: "fa-headset",
+                color: "border-indigo-500/50"
+            },
+            {
+                title: "Firewall & Endpoint Security",
+                role: "Security Analyst",
+                category: "Cybersecurity",
+                description: "Configured advanced Windows Firewall rules, tested application whitelisting, and deployed Microsoft Defender for Endpoint features.",
+                tech: ["Firewalls", "Whitelisting", "Defender", "Endpoint Security"],
+                icon: "fa-lock",
+                color: "border-red-500/50"
+            }
+        ];
+
+        // --- Components ---
+
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const navLinks = [
+                { name: 'About', href: '#about' },
+                { name: 'Skills', href: '#skills' },
+                { name: 'Projects', href: '#projects' },
+                { name: 'Certifications', href: '#certifications' },
+                { name: 'Education', href: '#education' },
+                { name: 'Contact', href: '#contact' },
+            ];
+
+            return (
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-xl' : 'bg-transparent'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between h-20">
+                            <div className="flex-shrink-0 cursor-pointer flex items-center gap-2" onClick={() => window.scrollTo(0,0)}>
+                                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                                    <span className="font-bold text-white text-lg">A</span>
+                                </div>
+                                <span className="font-mono text-lg font-bold text-white tracking-tighter">PRADIP<span className="text-blue-500">.PANDEY</span></span>
+                            </div>
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-8">
+                                    {navLinks.map((link) => (
+                                        <a key={link.name} href={link.href} className="text-slate-300 hover:text-white hover:bg-slate-800/50 px-3 py-2 rounded-md text-sm font-medium transition-all">
+                                            {link.name}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="-mr-2 flex md:hidden">
+                                <button onClick={() => setIsOpen(!isOpen)} className="text-slate-300 hover:text-white p-2">
+                                    <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Mobile Menu */}
+                    {isOpen && (
+                        <div className="md:hidden bg-slate-900 border-b border-slate-800">
+                            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                                {navLinks.map((link) => (
+                                    <a key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                                        {link.name}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const Hero = () => {
+            const [text, setText] = useState('');
+            const fullText = "Digital Engagement | Cybersecurity | Network Engineering";
+            
+            useEffect(() => {
+                let i = 0;
+                const typing = setInterval(() => {
+                    if (i < fullText.length) {
+                        setText(prev => prev + fullText.charAt(i));
+                        i++;
+                    } else {
+                        clearInterval(typing);
+                    }
+                }, 40);
+                return () => clearInterval(typing);
+            }, []);
+
+            return (
+                <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-slate-950">
+                    <div className="mesh-bg top-0 left-0 bg-blue-600/10 blur-[100px]"></div>
+                    <div className="mesh-bg bottom-0 right-0 bg-purple-600/10 blur-[100px]"></div>
+
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div className="space-y-8">
+                            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-blue-900/30 rounded-full border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+                                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                                <span>Open to Work: Digital Engagement Officer</span>
+                            </div>
+                            
+                            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
+                                Empowering Communities Through <span className="text-gradient">Secure Technology</span>
+                            </h1>
+                            
+                            <div className="h-6">
+                                <p className="font-mono text-blue-400 text-sm md:text-base">
+                                    &gt; {text}<span className="cursor-blink">_</span>
+                                </p>
+                            </div>
+
+                            <p className="text-slate-400 text-lg max-w-xl leading-relaxed">
+                                I combine advanced IT skills—from <strong>Network Forensics</strong> to <strong>Desktop Support</strong>—with a strategic mindset to build digital literacy programs that are robust, secure, and accessible.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                                <a href="#projects" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                                    <i className="fas fa-code-branch"></i> View Projects
+                                </a>
+                                <a href="#about" className="glass-panel hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+                                    <i className="fas fa-user"></i> About Me
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Interactive Terminal Card */}
+                        <div className="relative hidden lg:block">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-30"></div>
+                            <div className="relative glass-panel rounded-2xl overflow-hidden shadow-2xl">
+                                <div className="bg-slate-900/80 px-4 py-3 flex items-center justify-between border-b border-slate-700/50">
+                                    <div className="flex space-x-2">
+                                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                    <div className="text-xs text-slate-500 font-mono">user@community-server:~</div>
+                                </div>
+                                <div className="p-6 font-mono text-sm space-y-4 text-slate-300">
+                                    <div>
+                                        <span className="text-green-400">➜</span> <span className="text-blue-400">~</span> <span className="text-yellow-300">check_skills_matrix</span>
+                                    </div>
+                                    <div className="pl-4 border-l-2 border-slate-700 space-y-2">
+                                        <p>[+] Project Management......<span className="text-green-400">READY</span></p>
+                                        <p>[+] Digital Forensics.......<span className="text-green-400">READY</span></p>
+                                        <p>[+] Desktop Support.........<span className="text-green-400">READY</span></p>
+                                        <p>[+] Policy & ACLs...........<span className="text-green-400">READY</span></p>
+                                        <p>[+] Hydra/Exploitation......<span className="text-green-400">READY</span></p>
+                                    </div>
+                                    <div>
+                                        <span className="text-green-400">➜</span> <span className="text-blue-400">~</span> echo "Qualified for deployment."
+                                    </div>
+                                    <div className="text-white">Qualified for deployment.</div>
+                                    <div className="animate-pulse">_</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const About = () => {
+            return (
+                <section id="about" className="py-24 bg-slate-900/30">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                         <div className="flex flex-col lg:flex-row gap-16 items-center">
+                            <div className="lg:w-1/3">
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-blue-600 rounded-3xl rotate-6 opacity-20 blur-lg"></div>
+                                    <img 
+                                        src="Pradip pandey.jfif" 
+                                        alt="Pradip Pandey" 
+                                        className="relative rounded-3xl shadow-2xl w-full object-cover border-2 border-slate-700/50"
+                                        onError={(e) => {e.target.src = 'https://via.placeholder.com/400x500/1e293b/38bdf8?text=Pradip+Pandey';}}
+                                    />
+                                </div>
+                            </div>
+                            <div className="lg:w-2/3">
+                                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">About Me</h2>
+                                <h3 className="text-xl text-blue-400 font-semibold mb-6">IT Support & Cybersecurity Professional</h3>
+                                <div className="space-y-4 text-slate-400 text-lg leading-relaxed">
+                                    <p>
+                                        I am a versatile IT professional with a unique blend of <strong>cybersecurity expertise</strong> and 
+                                        hands‑on <strong>technical support</strong> experience. My background spans <strong>network engineering, 
+                                        system administration, hardware/software troubleshooting, and end‑user support</strong> — making me 
+                                        an adaptable asset to any IT team.
+                                    </p>
+                                    <p>
+                                        With a proven record in <strong>Windows, Linux, and macOS administration</strong>, Cisco networking, 
+                                        virtualization, and endpoint security, I combine technical precision with 
+                                        clear, customer‑focused communication. Whether I’m deploying infrastructure, responding to 
+                                        incidents, optimising performance, or mentoring colleagues, I approach every task with 
+                                        diligence, adaptability, and a solutions‑driven mindset.
+                                    </p>
+                                </div>
+                                <div className="flex flex-wrap gap-3 mt-8">
+                                    {aboutHighlights.map((highlight, idx) => (
+                                        <span key={idx} className="px-4 py-2 bg-slate-800 rounded-full text-sm font-medium text-blue-300 border border-slate-700 shadow-sm">
+                                            {highlight}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Skills = () => {
+            return (
+                <section id="skills" className="py-24 relative">
+                     <div className="mesh-bg top-1/2 right-0 bg-indigo-600/5 blur-[120px]"></div>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div className="mb-12 text-center">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Technical Expertise</h2>
+                            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+                                A comprehensive skills matrix developed through academic rigor and practical application.
+                            </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {skillsData.map((skill, idx) => (
+                                <div key={idx} className={`glass-card p-6 rounded-2xl border-t-4 ${skill.color} h-full`}>
+                                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                                        <i className={`fas ${skill.icon} text-slate-400`}></i>
+                                        {skill.category}
+                                    </h3>
+                                    <ul className="space-y-2">
+                                        {skill.items.map((item, i) => (
+                                            <li key={i} className="flex items-start gap-2 text-slate-400 text-sm">
+                                                <i className="fas fa-check text-blue-500 mt-1 text-xs"></i>
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Projects = () => {
+            return (
+                <section id="projects" className="py-24 bg-slate-900/50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="mb-12 text-center">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Projects & Labs</h2>
+                            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+                                Hands-on experience demonstrating competency across OS, Cloud, Networking, and Cybersecurity.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {projects.map((project, idx) => (
+                                <div key={idx} className={`glass-card p-6 rounded-2xl border-t-4 ${project.color} group flex flex-col`}>
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-3 bg-slate-800 rounded-xl">
+                                            <i className={`fas ${project.icon} text-xl text-white`}></i>
+                                        </div>
+                                        <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest border border-slate-700 px-2 py-1 rounded">
+                                            {project.role}
+                                        </span>
+                                    </div>
+                                    
+                                    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-xs font-mono text-slate-500 mb-3 uppercase tracking-wider">{project.category}</p>
+                                    
+                                    <p className="text-slate-400 text-sm mb-6 leading-relaxed flex-grow">
+                                        {project.description}
+                                    </p>
+
+                                    <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-slate-700/50">
+                                        {project.tech.map((t, i) => (
+                                            <span key={i} className="text-[10px] font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                                                #{t}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Certifications = () => {
+            return (
+                <section id="certifications" className="py-24">
+                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="mb-12 text-center">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Qualifications & Certificates</h2>
+                            <p className="text-slate-400 max-w-2xl mx-auto">
+                                Verified credentials spanning Networking, Security, and IT Operations.
+                                <br/>
+                                <span className="text-sm text-slate-500 mt-2 block">(Click any certificate to view in full resolution)</span>
+                            </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {certificates.map((cert) => (
+                                <a 
+                                    key={cert.id} 
+                                    href={cert.src}
+                                    target="_blank"
+                                    rel="noopener noreferrer" 
+                                    className="block cert-card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 relative group cursor-pointer"
+                                    title="View Certificate in new tab"
+                                >
+                                    {/* Image Container */}
+                                    <div className="relative aspect-[4/3] bg-slate-900 overflow-hidden">
+                                        <img 
+                                            src={cert.src} 
+                                            alt={cert.title} 
+                                            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                                            onError={(e) => {e.target.src = 'https://via.placeholder.com/600x400/0f172a/38bdf8?text=Image+Not+Found';}} 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                                    </div>
+                                    
+                                    {/* Text Overlay */}
+                                    <div className="absolute bottom-0 left-0 w-full p-6">
+                                        <span className="text-xs font-bold text-blue-400 bg-blue-900/30 px-2 py-1 rounded mb-2 inline-block border border-blue-500/20">
+                                            {cert.issuer}
+                                        </span>
+                                        <h3 className="text-lg font-bold text-white leading-tight mb-2 group-hover:text-blue-300 transition-colors">
+                                            {cert.title}
+                                        </h3>
+                                        <p className="text-sm text-slate-400 leading-snug opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                            {cert.description}
+                                        </p>
+                                    </div>
+                                    
+                                    {/* New Tab Icon */}
+                                    <div className="absolute top-4 right-4 bg-slate-900/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                                        <i className="fas fa-external-link-alt text-white text-xs"></i>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                     </div>
+                </section>
+            );
+        };
+
+        const Education = () => {
+            return (
+                <section id="education" className="py-24 bg-slate-900/30">
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">Academic Foundation</h2>
+                        
+                        <div className="space-y-8">
+                            {education.map((edu, idx) => (
+                                <div key={idx} className="glass-panel p-8 rounded-2xl flex flex-col md:flex-row gap-6 hover:bg-slate-800/40 transition-colors">
+                                    <div className="md:w-1/4">
+                                        <span className="block text-5xl font-bold text-slate-700 mb-2">0{4-idx}</span>
+                                        <span className="inline-block px-3 py-1 bg-blue-900/30 text-blue-400 rounded-full text-sm font-bold border border-blue-500/20">
+                                            {edu.year}
+                                        </span>
+                                    </div>
+                                    <div className="md:w-3/4">
+                                        <h3 className="text-2xl font-bold text-white mb-1">{edu.degree}</h3>
+                                        <h4 className="text-lg text-slate-300 mb-4">{edu.institution}</h4>
+                                        <p className="text-slate-400 mb-6">{edu.details}</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {edu.tags.map((tag, i) => (
+                                                <span key={i} className="text-xs font-mono text-slate-500 border border-slate-700 px-2 py-1 rounded">
+                                                    #{tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Contact = () => {
+            return (
+                <section id="contact" className="py-24 relative overflow-hidden">
+                     <div className="mesh-bg bottom-0 left-0 bg-blue-600/5 blur-[120px]"></div>
+                    <div className="max-w-4xl mx-auto px-4 relative z-10">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl font-bold text-white mb-6">Ready to Engage?</h2>
+                            <p className="text-xl text-slate-300">
+                                Whether you’re looking to fill a role in <strong>IT support, networking, or cybersecurity</strong>, 
+                                or just need expert tech help — I’m here to connect.
+                            </p>
+                        </div>
+                        
+                        <div className="glass-panel p-8 md:p-10 rounded-3xl border border-slate-700">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                                <a href={`mailto:${personalInfo.email}`} className="flex flex-col items-center justify-center p-6 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-colors text-center group">
+                                    <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <i className="fas fa-envelope text-blue-400 text-xl"></i>
+                                    </div>
+                                    <h3 className="text-white font-bold mb-1">Email</h3>
+                                    <p className="text-slate-400 text-sm">{personalInfo.email}</p>
+                                </a>
+                                
+                                <a href={`https://www.linkedin.com/in/${personalInfo.linkedin}`} target="_blank" className="flex flex-col items-center justify-center p-6 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-colors text-center group">
+                                    <div className="w-12 h-12 bg-[#0077b5]/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <i className="fab fa-linkedin text-[#0077b5] text-xl"></i>
+                                    </div>
+                                    <h3 className="text-white font-bold mb-1">LinkedIn</h3>
+                                    <p className="text-slate-400 text-sm">Connect professionally</p>
+                                </a>
+                                
+                                <a href={`https://github.com/${personalInfo.github}`} target="_blank" className="flex flex-col items-center justify-center p-6 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-colors text-center group">
+                                    <div className="w-12 h-12 bg-slate-700/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <i className="fab fa-github text-white text-xl"></i>
+                                    </div>
+                                    <h3 className="text-white font-bold mb-1">GitHub</h3>
+                                    <p className="text-slate-400 text-sm">View my projects</p>
+                                </a>
+                            </div>
+
+                            <div className="border-t border-slate-700 pt-10">
+                                <h3 className="text-2xl font-bold text-white mb-6 text-center">Send a Message</h3>
+                                <form action={`mailto:${personalInfo.email}`} method="POST" encType="text/plain" className="max-w-2xl mx-auto space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <input type="text" name="name" placeholder="Your Name" required className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors" />
+                                        <input type="email" name="email" placeholder="Your Email" required className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors" />
+                                    </div>
+                                    <textarea name="message" rows="5" placeholder="Your Message" required className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"></textarea>
+                                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                                        <i className="fas fa-paper-plane"></i> Send Message
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <footer className="mt-16 text-slate-600 text-sm text-center">
+                            <p>&copy; 2025 Pradip Pandey — Cybersecurity & IT Support Specialist</p>
+                        </footer>
+                    </div>
+                </section>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="antialiased selection:bg-blue-500 selection:text-white">
+                    <Navbar />
+                    <Hero />
+                    <About />
+                    <Skills />
+                    <Projects />
+                    <Certifications />
+                    <Education />
+                    <Contact />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
