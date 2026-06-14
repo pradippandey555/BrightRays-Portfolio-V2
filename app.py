@@ -485,7 +485,11 @@ def handle_terminal_command():
         except shodan.APIError as e:
             return jsonify({"response": f"[ERROR] Shodan API Error: {str(e)}"})
 
+        # --- AI DISABLED FOR PRODUCTION ---
+    return jsonify({"response": "[INFO] Cyber Agent AI is currently in maintenance mode. Only Shodan scanning is available."})
+
     # --- LOCAL LLAMA FALLBACK ---
+    """
     try:
         ollama_url = "http://localhost:11434/api/generate"
         payload = {
@@ -505,6 +509,7 @@ def handle_terminal_command():
         return jsonify({"response": "[CRITICAL ERROR] Local AI engine (Ollama) is offline."}), 503
     except Exception as e:
         return jsonify({"response": f"[SYSTEM FAULT] {str(e)}"}), 500
+    """
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+    app.run(debug=False, port=3000)
