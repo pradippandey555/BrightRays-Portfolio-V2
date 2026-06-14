@@ -1,14 +1,13 @@
-
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, send_file
 from flask_mail import Mail, Message
 from fpdf import FPDF
 import io
 import os
+import requests 
+import shodan # NEW: Added Shodan library
 from dotenv import load_dotenv
 
 load_dotenv()
-
-
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'default-secret-key-change-me')
@@ -22,6 +21,10 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
 mail = Mail(app)
+
+# Initialize Shodan Client
+SHODAN_API_KEY = os.getenv('SHODAN_API_KEY')
+shodan_api = shodan.Shodan(SHODAN_API_KEY) if SHODAN_API_KEY else None
 
 # --- Data ---
 PERSONAL_INFO = {
@@ -323,7 +326,6 @@ def annapurna():
 
 @app.route('/projects')
 def projects():
-    # You can extend PROJECTS with video links and github urls here or in the data above
     return render_template('projects.html', projects=PROJECTS)
 
 
@@ -360,7 +362,6 @@ def generate_pdf(project_id):
     pdf.add_page()
     
     # --- Content Logic ---
-    # Try to read the md file
     content = ""
     guide_path = os.path.join(app.root_path, 'lab_guides', project.get('guide_file', ''))
     if os.path.exists(guide_path):
@@ -370,55 +371,41 @@ def generate_pdf(project_id):
         for line in lines:
             line = line.strip()
             
-            # H1 Header (#)
             if line.startswith('# '):
                 pdf.ln(5)
                 pdf.set_font("Arial", 'B', 16)
                 pdf.set_text_color(30, 64, 175)
                 pdf.cell(0, 10, line.replace('# ', ''), ln=True)
                 pdf.set_text_color(0, 0, 0)
-            
-            # H2 Header (##)
             elif line.startswith('## '):
                 pdf.ln(4)
                 pdf.set_font("Arial", 'B', 14)
                 pdf.cell(0, 10, line.replace('## ', ''), ln=True)
-            
-            # H3 Header (###)
             elif line.startswith('### '):
                 pdf.ln(2)
                 pdf.set_font("Arial", 'B', 12)
                 pdf.cell(0, 10, line.replace('### ', ''), ln=True)
-                
-            # Bullet point (*)
             elif line.startswith('* ') or line.startswith('- '):
                 pdf.set_font("Arial", size=11)
-                pdf.set_x(15) # Indent
+                pdf.set_x(15) 
                 pdf.multi_cell(0, 6, chr(149) + " " + line[2:])
-                
-            # Code Block (simple check)
             elif line.startswith('`') or line.startswith('    '):
                  pdf.set_font("Courier", size=10)
                  pdf.set_fill_color(240, 240, 240)
                  pdf.multi_cell(0, 5, line.replace('`', ''), fill=True)
-            
-            # Standard Text
             else:
                 if line:
                     pdf.set_font("Arial", size=11)
                     pdf.multi_cell(0, 6, line)
                     pdf.ln(1)
-
     else:
         pdf.set_font("Arial", size=12)
         pdf.cell(0, 10, "Detailed Lab Guide content not found.", ln=True)
 
-    # Footer
     pdf.set_y(-15)
     pdf.set_font("Arial", 'I', 8)
     pdf.cell(0, 10, f"Page {pdf.page_no()}", align='C')
 
-    # Output to buffer
     pdf_buffer = io.BytesIO()
     pdf_output = pdf.output(dest='S').encode('latin-1', errors='replace')
     pdf_buffer.write(pdf_output)
@@ -431,7 +418,6 @@ def generate_pdf(project_id):
         mimetype='application/pdf'
     )
 
-
 @app.route('/submit-help-request', methods=['POST'])
 def submit_help_request():
     if request.method == 'POST':
@@ -440,7 +426,6 @@ def submit_help_request():
         contact_info = request.form.get('contact_info')
         message = request.form.get('message')
         
-        # Email Logic
         try:
             msg = Message(f"New Help Request from {name}",
                           recipients=['annapurnaaspirations@gmail.com'])
@@ -457,6 +442,69 @@ def submit_help_request():
             flash("There was an error sending your request. Please try again later.", "error")
             
         return redirect(url_for('annapurna'))
+
+@app.route('/api/terminal', methods=['POST'])
+def handle_terminal_command():
+    data = request.get_json()
+    user_command = data.get('command', '').strip()
+    
+    if not user_command:
+        return jsonify({"response": "Error: No command provided."}), 400
+
+    if user_command.lower() == "check_cyberagent_status":
+        return jsonify({"response": "SYSTEM STATUS: ONLINE. Threat APIs connected."})
+    
+    # --- LIVE SHODAN INTEGRATION ---
+    if user_command.lower().startswith("shodan "):
+        if not shodan_api:
+            return jsonify({"response": "[ERROR] SHODAN_API_KEY is missing from .env configuration."})
+            
+        ip_to_scan = user_command[7:].strip()
+        try:
+            # Query Shodan
+            host = shodan_api.host(ip_to_scan)
+            
+            # Format the live response for the terminal
+            response_text = f"[INFO] Target IP: {ip_to_scan}\n"
+            response_text += f"[ORG] {host.get('org', 'Unknown')}\n"
+            response_text += f"[OS] {host.get('os', 'Unknown')}\n"
+            
+            ports = host.get('ports', [])
+            response_text += f"[PORTS] {', '.join(str(p) for p in ports)}\n\n"
+            
+            vulns = host.get('vulns', [])
+            if vulns:
+                response_text += f"[WARNING] {len(vulns)} CVEs detected.\n"
+                for vuln in vulns[:5]: # Limit to top 5 to avoid flooding terminal
+                    response_text += f" - {vuln}\n"
+            else:
+                response_text += "[RESULT] No known CVEs detected by Shodan.\n"
+                
+            return jsonify({"response": response_text})
+            
+        except shodan.APIError as e:
+            return jsonify({"response": f"[ERROR] Shodan API Error: {str(e)}"})
+
+    # --- LOCAL LLAMA FALLBACK ---
+    try:
+        ollama_url = "http://localhost:11434/api/generate"
+        payload = {
+            "model": "llama3", 
+            "system": "You are 'CyberTutor', an advanced SOC Analyst AI operating inside a secure command-line terminal. Your responses must be concise, highly technical, and strictly formatted as raw terminal output. CRITICAL RULES: 1. NEVER use markdown formatting (no asterisks *, no bolding **, no hashtags #). 2. Never use conversational filler like 'Here is the analysis'. 3. Structure your data using strictly bracketed prefixes like [INFO], [ANALYSIS], [WARNING], or [RESULT].",
+            "prompt": user_command,
+            "stream": False
+        }
+        
+        ai_response = requests.post(ollama_url, json=payload)
+        ai_data = ai_response.json()
+        
+        final_text = ai_data.get("response", "Error: AI failed to generate a response.")
+        return jsonify({"response": final_text})
+        
+    except requests.exceptions.ConnectionError:
+        return jsonify({"response": "[CRITICAL ERROR] Local AI engine (Ollama) is offline."}), 503
+    except Exception as e:
+        return jsonify({"response": f"[SYSTEM FAULT] {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
