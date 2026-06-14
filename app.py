@@ -512,4 +512,4 @@ def handle_terminal_command():
     """
 
 if __name__ == '__main__':
-    app.run(debug=False, port=3000)
+    app.run(debug=False)
